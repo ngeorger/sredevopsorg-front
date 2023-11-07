@@ -1,0 +1,50 @@
+<script setup lang="ts">
+import type { BlockColumn, BlockColumnRow, File } from '~/types';
+
+defineProps<{
+	data: BlockColumn;
+}>();
+</script>
+
+<template>
+	<BlockContainer>
+		<TypographyTitle v-if="data?.title">{{ data?.title }}</TypographyTitle>
+		<TypographyHeadline v-if="data?.headline" :content="data?.headline" />
+		<div class="mt-12 space-y-16">
+			<div
+				v-for="row in data?.rows as BlockColumnRow[]"
+				:key="row?.id"
+				class="relative grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-24"
+			>
+				<div class="my-auto">
+					<TypographyTitle v-if="row?.title">{{ row?.title }}</TypographyTitle>
+					<TypographyHeadline v-if="row?.headline" :content="row?.headline" />
+					<TypographyProse v-if="row?.content" :content="row?.content" class="mt-4" />
+				</div>
+				<div
+					class="order-first block w-full overflow-hidden border aspect-square dark:border-gray-700 rounded-card"
+					:class="[
+						{
+							'lg:order-last': row?.image_position === 'right',
+							'lg:order-first': row?.image_position === 'left',
+						},
+					]"
+				>
+					<div
+						v-motion
+						:initial="{ opacity: 0, scale: 0.8, y: 50 }"
+						:visible-once="{ opacity: 1, scale: 1, y: 0 }"
+						:duration="1000"
+						:delay="250"
+					>
+						<NuxtImg
+							:alt="safeRelation(row.image)?.description ?? ''"
+							:src="safeRelationId(row.image)"
+							class="object-cover object-center w-full h-full bg-gray-100 rounded-card dark:brightness-90"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</BlockContainer>
+</template>

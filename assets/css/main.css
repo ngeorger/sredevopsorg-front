@@ -1,0 +1,26 @@
+html {
+	scroll-behavior: smooth;
+}
+
+:target {
+	scroll-margin-top: 4rem;
+}
+
+.grain-bg {
+	background-image: url('~~/assets/img/noise.png');
+}
+
+::selection {
+	@apply bg-primary text-white;
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
